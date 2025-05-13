@@ -5,6 +5,7 @@
     "image": "test",
     "description": "test",
     "ingredients": "test",
+    "price": 100,
     "visible": true
   }
 ]
