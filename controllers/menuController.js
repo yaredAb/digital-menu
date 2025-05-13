@@ -1,60 +1,64 @@
-const fs = require('fs')
-const path = require('path')
+const MenuItem = require('../models/MenuItem')
 
-const dataPath = path.join(__dirname, '../data/menuItems.json')
-
-const readMenuData = () => {
-    const data = fs.readFileSync(dataPath)
-    return JSON.parse(data)
+const getMenuItems = async (req, res) => {
+    try{
+        const menuItems = await MenuItem.find();
+        res.json(menuItems)
+    } catch (err) {
+        res.status(500).json({message: "Error fetching menu items", err})
+    }
+    
 }
 
-const writeMenuData = (data) => {
-    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2))
-}
+const addMenuItem = async (req, res) => {
 
-const getMenuItems = (req, res) => {
-    const menuItems = readMenuData();
-    res.json(menuItems)
-}
-
-const addMenuItem = (req, res) => {
-    const {name, image, description, ingredients, price, category} = req.body
-    const menuItems = readMenuData()
-
-    const newItem = {
-        id: Date.now().toString(),
-        name,
-        image,
-        description,
-        ingredients,
-        price,
-        category,
-        visible: true
-    };
-
-    menuItems.push(newItem)
-    writeMenuData(menuItems)
-    res.status(201).json(newItem)
+    try{
+        const {name, image, description, ingredients, price, category} = req.body
+        const newItem = new MenuItem(
+            name,
+            image,
+            description,
+            ingredients,
+            price,
+            category
+        )
+        await newItem.save();
+        res.status(201).json(newItem)
+    } catch (err) {
+        res.status(400).json({ message: 'Error adding item', error: err.message });
+    }
 }
 
 // PATCH visibility
-const updateVisibility = (req, res) => {
-    const { id } = req.params;
-    const menuItems = readMenuData();
-  
-    const item = menuItems.find(item => item.id === id);
-    if (!item) {
-      return res.status(404).json({ message: 'Item not found' });
+const updateVisibility = async (req, res) => {
+
+    try{
+        const { id } = req.params;
+        const item = await MenuItem.findById(id)
+
+        if (!item) return res.status(404).json({ message: 'Item not found' });
+        item.visible = !item.visible
+        await item.save();
+        res.json(item)
+    } catch(err) {
+        res.status(500).json({ message: 'Error updating visibility', error: err.message });
+
     }
-  
-    item.visible = !item.visible;
-    writeMenuData(menuItems);
-    res.json(item);
   }
 
-const getMenuItemById = (req, res) => {
-    const { id } = req.params
-    const menuItems = readMenuData()
+const getMenuItemById = async (req, res) => {
+
+    try{
+        const { id } = req.params
+        const menuItem = await MenuItem.findById(id)
+
+        if(!menuItem) return res.status(404).json({message: 'Error fetching item'});
+
+        res.json(menuItem)
+
+    } catch(err) {
+        res.status(500).json({message: 'error fetching an item'})
+    }
 
     const item = menuItems.find(item => item.id === id);
 
