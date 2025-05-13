@@ -18,7 +18,7 @@ const getCategories = (req, res) => {
 }
 
 const addCategory = (req, res) => {
-    const {name, isVisible} = req.body
+    const {name} = req.body
     const categories = readCategory()
 
     const newCategory = {
