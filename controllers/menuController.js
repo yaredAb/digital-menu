@@ -14,13 +14,14 @@ const addMenuItem = async (req, res) => {
 
     try{
         const {name, image, description, ingredients, price, category} = req.body
-        const newItem = new MenuItem(
+        const newItem = new MenuItem({
             name,
             image,
             description,
             ingredients,
             price,
             category
+            }
         )
         await newItem.save();
         res.status(201).json(newItem)
