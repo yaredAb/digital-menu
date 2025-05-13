@@ -9,8 +9,8 @@ const {
 
 
 
-router.get('/categories', getCategories)
+router.get('/', getCategories)
 
-router.post('/categories', addCategory)
+router.post('/', addCategory)
 
 module.exports = router
