@@ -27,6 +27,7 @@ const addMenuItem = (req, res) => {
         image,
         description,
         ingredients,
+        price,
         visible: true
     };
 
