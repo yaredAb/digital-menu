@@ -48,10 +48,24 @@ const updateVisibility = (req, res) => {
     item.visible = !item.visible;
     writeMenuData(menuItems);
     res.json(item);
-  };
+  }
+
+const getMenuItemById = (req, res) => {
+    const { id } = req.params
+    const menuItems = readMenuData()
+
+    const item = menuItems.find(item => item.id === id);
+
+    if(!item) {
+        return res.status(404).json({message: "Item not found"})
+    }
+
+    res.json(item)
+}
   
   module.exports = {
     getMenuItems,
     addMenuItem,
-    updateVisibility
+    updateVisibility,
+    getMenuItemById
   };
