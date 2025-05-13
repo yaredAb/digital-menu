@@ -6,7 +6,7 @@ const {
     getMenuItems,
     addMenuItem,
     updateVisibility,
-    getMenuItemById
+    getMenuItemById,
 } = require('../controllers/menuController');
 
 
