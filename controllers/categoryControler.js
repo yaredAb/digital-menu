@@ -29,7 +29,7 @@ const addCategory = (req, res) => {
 
     categories.push(newCategory)
     writeCategory(categories)
-    res,status(201).json(newCategory)
+    res.status(201).json(newCategory)
 }
 
 // PATCH visibility
