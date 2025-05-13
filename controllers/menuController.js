@@ -18,7 +18,7 @@ const getMenuItems = (req, res) => {
 }
 
 const addMenuItem = (req, res) => {
-    const {name, image, description, ingredients, price} = req.body
+    const {name, image, description, ingredients, price, category} = req.body
     const menuItems = readMenuData()
 
     const newItem = {
@@ -28,6 +28,7 @@ const addMenuItem = (req, res) => {
         description,
         ingredients,
         price,
+        category,
         visible: true
     };
 
