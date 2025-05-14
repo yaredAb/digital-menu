@@ -14,21 +14,19 @@ const addMenuItem = async (req, res) => {
 
     try{
         const {name, description, ingredients, price, category} = req.body
-        const image = req.file ? `uploads/${req.file.filename}` : null
+        const image = req.file ? `uploads/${req.file.filename}` : ''
 
         if(!image) {
             return res.status(400).json({message: 'image is required'})
         }
         const newItem = new MenuItem({
             name,
-            image,
             description,
-            ingredients,
-            price,
+            ingredients: ingredients.split(',').map(i => i.trim()), // Convert to array
             category,
+            price: parseFloat(price),
             image
-            }
-        )
+          });
         await newItem.save();
         res.status(201).json(newItem)
     } catch (err) {
