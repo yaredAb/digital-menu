@@ -34,7 +34,7 @@ const addMenuItem = async (req, res) => {
     const newItem = new MenuItem({
       name,
       description: description || '',
-      ingredients: ingredients ? ingredients.split(',').map(i => i.trim()) : [],
+      ingredients: ingredients || '',
       category,
       price: parseFloat(price),
       image
