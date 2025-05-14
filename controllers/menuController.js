@@ -13,14 +13,20 @@ const getMenuItems = async (req, res) => {
 const addMenuItem = async (req, res) => {
 
     try{
-        const {name, image, description, ingredients, price, category} = req.body
+        const {name, description, ingredients, price, category} = req.body
+        const image = req.file ? `uploads/${req.file.filename}` : null
+
+        if(!image) {
+            return res.status(400).json({message: 'image is required'})
+        }
         const newItem = new MenuItem({
             name,
             image,
             description,
             ingredients,
             price,
-            category
+            category,
+            image
             }
         )
         await newItem.save();

@@ -9,10 +9,11 @@ const {
     getMenuItemById,
 } = require('../controllers/menuController');
 
+const upload = require('../middleware/upload')
 
 router.get('/', getMenuItems)
 
-router.post('/', addMenuItem)
+router.post('/', upload.single('image'), addMenuItem)
 
 router.patch('/:id/visiblity', updateVisibility);
 
