@@ -2,6 +2,7 @@ const multer = require('multer')
 const { CloudinaryStorage } = require('multer-storage-cloudinary')
 const cloudinary = require('../utils/cloudinary')
 
+console.log('Cloudinary middleware is being used');
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {

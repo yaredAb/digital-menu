@@ -9,7 +9,7 @@ const {
     getMenuItemById,
 } = require('../controllers/menuController');
 
-const upload = require('../middleware/upload')
+const upload = require('../middleware/cloudinaryUpload')
 
 router.get('/', getMenuItems)
 
