@@ -16,7 +16,7 @@ router.get('/', getMenuItems)
 
 router.post('/', upload.single('image'), addMenuItem)
 
-router.patch('/:id/visiblity', updateVisibility);
+router.patch('/:id/visibility', updateVisibility);
 
 router.delete('/:id', deleteMenu)
 
