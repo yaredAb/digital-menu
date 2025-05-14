@@ -23,7 +23,11 @@ const addMenuItem = async (req, res) => {
       return res.status(400).json({ message: 'Name, price, category, and image are required' });
     }
 
-    const image = req.file ? `uploads/${req.file.filename}` : '';
+    const image = req.file?.path;
+
+    if (!image) {
+        return res.status(400).json({ message: 'Image is required' });
+    }
 
     const newItem = new MenuItem({
       name,
