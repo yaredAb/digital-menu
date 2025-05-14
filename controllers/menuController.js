@@ -26,6 +26,7 @@ const addMenuItem = async (req, res) => {
         await newItem.save();
         res.status(201).json(newItem)
     } catch (err) {
+        console.error('Error in addMenuItem:', err);
         res.status(400).json({ message: 'Error adding item', error: err.message });
     }
 }

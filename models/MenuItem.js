@@ -4,7 +4,7 @@ const menuItemSchema = new mongoose.Schema({
     name: String,
     image: String,
     description: String,
-    ingredients: String,
+    ingredients: [String],
     price: Number,
     visible: {
         type: Boolean,
