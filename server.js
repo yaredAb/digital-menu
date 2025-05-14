@@ -14,9 +14,12 @@ const PORT = 3000
 
 app.use(cors())
 app.use(bodyParser.json())
+
+app.use('/uploads', express.static('uploads'));
+
 app.use('/api/menu', menuRoutes)
 app.use('/api/category', categoryRoutes)
-app.use('/uploads', express.static('uploads'));
+
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

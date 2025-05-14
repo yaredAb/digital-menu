@@ -11,6 +11,8 @@ const getMenuItems = async (req, res) => {
 }
 
 const addMenuItem = async (req, res) => {
+    console.log('File:', req.file);
+
   try {
     const { name, description, ingredients, price, category } = req.body;
 
@@ -19,7 +21,7 @@ const addMenuItem = async (req, res) => {
       return res.status(400).json({ message: 'Name, price, category, and image are required' });
     }
 
-    const image = `uploads/${req.file.filename}`;
+    const image = req.file ? `uploads/${req.file.filename}` : '';
 
     const newItem = new MenuItem({
       name,
