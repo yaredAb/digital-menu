@@ -7,6 +7,7 @@ const {
     addMenuItem,
     updateVisibility,
     getMenuItemById,
+    deleteMenu
 } = require('../controllers/menuController');
 
 const upload = require('../middleware/cloudinaryUpload')
@@ -16,6 +17,8 @@ router.get('/', getMenuItems)
 router.post('/', upload.single('image'), addMenuItem)
 
 router.patch('/:id/visiblity', updateVisibility);
+
+router.delete('/:id', deleteMenu)
 
 router.get('/:id', getMenuItemById)
 

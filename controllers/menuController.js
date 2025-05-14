@@ -1,4 +1,5 @@
 const MenuItem = require('../models/MenuItem')
+const cloudinary = require('../utils/cloudinary')
 
 const getMenuItems = async (req, res) => {
     try{
@@ -48,6 +49,28 @@ const addMenuItem = async (req, res) => {
   }
 };
 
+const deleteMenu = async (req, res) => {
+  try{
+    const {id} = req.params
+
+    const menuItem = await MenuItem.findById(id)
+
+    if(!menuItem) return res.status(404).json({message: "Item not found"});
+
+    if(menuItem.image) {
+      const publicId = menuItem.image.split('/').pop().split('.')[0]
+      await cloudinary.uploader.destroy(publicId)
+    }
+
+    await MenuItem.findByIdAndDelete(id)
+
+    res.status(200).json({message: "deleted successfully"})
+  } catch(err) {
+    console.error('Error in deleteMenuItem:', err);
+    res.status(500).json({ message: 'Error deleting menu item', error: err.message });
+  }
+}
+
 // PATCH visibility
 const updateVisibility = async (req, res) => {
 
@@ -92,5 +115,6 @@ const getMenuItemById = async (req, res) => {
     getMenuItems,
     addMenuItem,
     updateVisibility,
-    getMenuItemById
+    getMenuItemById,
+    deleteMenu
   };
