@@ -10,30 +10,36 @@ const getMenuItems = async (req, res) => {
     
 }
 
+const MenuItem = require('../models/MenuItem');
+
 const addMenuItem = async (req, res) => {
+  try {
+    const { name, description, ingredients, price, category } = req.body;
 
-    try{
-        const {name, description, ingredients, price, category} = req.body
-        const image = req.file ? `uploads/${req.file.filename}` : ''
-
-        if(!image) {
-            return res.status(400).json({message: 'image is required'})
-        }
-        const newItem = new MenuItem({
-            name,
-            description,
-            ingredients: ingredients.split(',').map(i => i.trim()), // Convert to array
-            category,
-            price: parseFloat(price),
-            image
-          });
-        await newItem.save();
-        res.status(201).json(newItem)
-    } catch (err) {
-        console.error('Error in addMenuItem:', err);
-        res.status(400).json({ message: 'Error adding item', error: err.message });
+    // Check required fields
+    if (!name || !price || !category || !req.file) {
+      return res.status(400).json({ message: 'Name, price, category, and image are required' });
     }
-}
+
+    const image = `uploads/${req.file.filename}`;
+
+    const newItem = new MenuItem({
+      name,
+      description: description || '',
+      ingredients: ingredients ? ingredients.split(',').map(i => i.trim()) : [],
+      category,
+      price: parseFloat(price),
+      image
+    });
+
+    await newItem.save();
+
+    res.status(201).json(newItem);
+  } catch (err) {
+    console.error('Error in addMenuItem:', err);
+    res.status(500).json({ message: 'Error adding item', error: err.message });
+  }
+};
 
 // PATCH visibility
 const updateVisibility = async (req, res) => {
