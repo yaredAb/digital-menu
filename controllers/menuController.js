@@ -10,8 +10,6 @@ const getMenuItems = async (req, res) => {
     
 }
 
-const MenuItem = require('../models/MenuItem');
-
 const addMenuItem = async (req, res) => {
   try {
     const { name, description, ingredients, price, category } = req.body;
