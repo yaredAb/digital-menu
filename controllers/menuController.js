@@ -24,6 +24,7 @@ const addMenuItem = async (req, res) => {
     }
 
     const image = req.file?.path;
+    console.log('Cloudinary URL:', req.file?.path); // should be a public image URL
 
     if (!image) {
         return res.status(400).json({ message: 'Image is required' });
