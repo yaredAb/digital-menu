@@ -16,6 +16,8 @@ const addMenuItem = async (req, res) => {
   try {
     const { name, description, ingredients, price, category } = req.body;
 
+    console.log('Uploaded file:', req.file);
+
     // Check required fields
     if (!name || !price || !category || !req.file) {
       return res.status(400).json({ message: 'Name, price, category, and image are required' });
