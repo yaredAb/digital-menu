@@ -138,7 +138,7 @@ const updateMenuItem = async (req, res) => {
 
     await menuItem.save()
 
-    res.statue(200).json(menuItem)
+    res.status(200).json(menuItem)
   } catch (err) {
     console.error('Error updating menu item', err)
     res.status(500).json({message: 'Error updating an item', error: err.message})
