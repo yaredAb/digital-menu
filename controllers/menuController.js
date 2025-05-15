@@ -110,11 +110,46 @@ const getMenuItemById = async (req, res) => {
 
     res.json(item)
 }
+
+const updateMenuItem = async (req, res) => {
+  try{
+    const {id} = req.params
+    const {name, description, price, ingredients, category} = req.body
+
+    const menuItem = await MenuItem.findById(id)
+    if(!menuItem) {
+      return res.status(404).json({message: 'Item not found'})
+    }
+
+    if(req.file && menuItem.image) {
+      const publicId = menuItem.image.split('/').pop().split('.')[0]
+      await cloudinary.uploader.destroy(`menu-items/${publicId}`)
+    }
+
+    menuItem.name = name;
+    menuItem.description = description || '';
+    menuItem.price = parseFloat(price);
+    menuItem.ingredients = ingredients;
+    menuItem.category = category;
+
+    if(req.file?.path) {
+      menuItem.image = req.file.path
+    }
+
+    await menuItem.save()
+
+    res.statue(200).json(menuItem)
+  } catch (err) {
+    console.error('Error updating menu item', err)
+    res.status(500).json({message: 'Error updating an item', error: err.message})
+  }
+}
   
   module.exports = {
     getMenuItems,
     addMenuItem,
     updateVisibility,
     getMenuItemById,
-    deleteMenu
+    deleteMenu,
+    updateMenuItem
   };
