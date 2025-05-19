@@ -3,7 +3,8 @@ const cloudinary = require('../utils/cloudinary')
 
 const getMenuItems = async (req, res) => {
     try{
-        const menuItems = await MenuItem.find().sort({createdAt: -1});
+        const menuItems = await MenuItem.find().sort({ createdAt: -1 });
+
         res.json(menuItems)
     } catch (err) {
         res.status(500).json({message: "Error fetching menu items", err})
